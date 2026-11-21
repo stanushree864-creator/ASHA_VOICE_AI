@@ -1,0 +1,1837 @@
+# PROJECT: ASHA VOICE REGISTER AI
+## Complete Product Requirements, Technical Architecture and Application Development Master Prompt
+
+---
+
+# 1. ROLE AND PROJECT OBJECTIVE
+
+Act as a senior full-stack architect, AI voice engineer, healthcare technology specialist, UI/UX designer, cybersecurity engineer, database architect and DevOps engineer.
+
+Build a complete, production-structured, responsive, multilingual AI-powered application named:
+
+**ASHA VOICE REGISTER AI – Intelligent Voice-Based Healthcare Field Registration System**
+
+The application's purpose is to help ASHA (Accredited Social Health Activist) workers record home-visit information through natural speech rather than manually typing information into paper registers or mobile applications.
+
+The application must transform spoken notes into validated structured healthcare visit records and automatically generate follow-up tasks.
+
+The application must work in real-world conditions, including:
+- Household background conversations.
+- Road and street noise.
+- Children crying.
+- Multiple people speaking.
+- Low-quality mobile microphones.
+- Slow and unstable internet.
+- Indian-language speech mixed with English medical terminology.
+
+The application must be designed primarily for Android smartphones used by ASHA workers.
+
+**Core principle: VOICE FIRST. ZERO TYPING IN THE ASHA VISIT WORKFLOW.**
+
+Do not build a static prototype or a chatbot-only application. Build a functional, integrated, full-stack system with actual speech processing, backend APIs, database persistence, voice confirmation and danger-sign escalation.
+
+---
+
+# 2. PRODUCT REQUIREMENTS DOCUMENT (PRD)
+
+## 2.1 Problem statement
+
+ASHA workers conduct home visits to monitor pregnant women, newborns and children requiring immunisation.
+
+Currently, workers spend considerable time manually entering information into paper registers and mobile applications.
+
+This creates problems:
+- Delayed healthcare record updates.
+- Incomplete visit information.
+- Manual entry errors.
+- Incorrect dates and numerical values.
+- Difficulties entering information while travelling.
+- Language barriers in English-oriented applications.
+- Difficulty maintaining accurate follow-up schedules.
+
+## 2.2 Proposed solution
+
+Create a multilingual AI voice agent that allows an ASHA worker to speak naturally during or immediately after a household visit.
+
+The application must:
+
+1. Listen to the ASHA worker in real time.
+2. Convert speech into text using streaming speech recognition.
+3. Understand local healthcare terminology and English code-mixing.
+4. Extract important information.
+5. Generate a structured visit record.
+6. Detect predefined danger signs.
+7. Read the complete record aloud.
+8. Accept corrections through voice.
+9. Save the record after explicit confirmation.
+10. Generate a follow-up action list.
+
+## 2.3 Primary users
+
+**Primary user – ASHA worker**
+
+- Uses an Android smartphone.
+- Prefers speaking in her local language.
+- May have limited experience with complex applications.
+- Needs large controls and simple navigation.
+- Must complete a visit record without typing.
+
+**Secondary user – ASHA supervisor**
+
+- Views completed records.
+- Checks pending follow-ups.
+- Reviews referral alerts.
+- Monitors field activity.
+
+**Administrator**
+
+- Manages application users.
+- Configures supported languages.
+- Maintains approved danger-sign lists.
+- Maintains official healthcare guideline versions.
+- Monitors system performance and audit logs.
+
+## 2.4 Core modules
+
+1. User authentication.
+2. Language selection.
+3. Voice-first home dashboard.
+4. Live speech capture.
+5. Streaming speech recognition.
+6. Healthcare terminology recognition.
+7. AI information extraction.
+8. Pregnancy visit registration.
+9. Newborn visit registration.
+10. Immunisation visit registration.
+11. Structured record generation.
+12. Voice-based read-back.
+13. Voice correction engine.
+14. Danger-sign detection.
+15. Emergency referral escalation.
+16. Follow-up management.
+17. Visit history.
+18. Supervisor dashboard.
+19. Offline draft management.
+20. Privacy and audit management.
+
+---
+
+# 3. FUNCTIONAL REQUIREMENTS
+
+## 3.1 Multilingual voice capture
+
+Implement real-time streaming speech-to-text.
+
+Initial language targets:
+
+- Kannada
+- Hindi
+- Tamil
+- Telugu
+- Malayalam
+- Marathi
+- Bengali
+- Gujarati
+- Punjabi
+- Odia
+- Assamese
+- English
+
+The architecture must allow additional Indian languages to be added through language-specific configurations.
+
+The application must support natural language switching and English code-mixing within a single sentence.
+
+Example:
+
+"Today Nandini avarige ANC checkup madidvi, weight 52 kilo ide, TT injection complete agide."
+
+The speech system must understand the sentence without requiring the worker to speak only English or only one language.
+
+Recognise medical expressions such as:
+
+- ANC checkup
+- TT injection
+- Td injection
+- IFA goli
+- Iron tablets
+- Folic acid
+- Pregnancy checkup
+- Birth weight
+- Newborn feeding
+- Vaccination
+- BCG
+- OPV
+- Pentavalent
+- PHC
+- ANM
+
+Maintain a healthcare vocabulary dictionary with local pronunciations, spelling variants, synonyms and English aliases.
+
+Do not automatically convert ambiguous medical terminology into another clinical term. Preserve the original spoken expression and request confirmation whenever necessary.
+
+## 3.2 Streaming speech processing
+
+Implement an end-to-end streaming voice pipeline.
+
+Required features:
+
+- Microphone audio streaming.
+- Streaming STT.
+- Partial transcript generation.
+- Voice activity detection.
+- Automatic endpointing.
+- Noise suppression.
+- Echo cancellation.
+- Automatic gain control.
+- Speaker interruption detection.
+- Streaming TTS response.
+- Audio playback cancellation.
+- Conversation state management.
+
+The application should start responding quickly after the worker finishes speaking.
+
+Measure:
+
+**Time to First Audio = First agent audio output timestamp − Caller speech endpoint timestamp.**
+
+Engineering target:
+
+- P50 target: under 1.2 seconds.
+- P95 target: under 2 seconds.
+
+These are performance goals, not assumed achievements. Measure and report actual results during testing.
+
+## 3.3 Background noise handling
+
+The system must be tested with:
+
+- Normal household noise.
+- Road traffic.
+- Children crying.
+- Multiple conversations.
+- Fan noise.
+- Outdoor wind.
+- Low-volume speech.
+
+Implement browser microphone noise suppression where available, followed by server-side or provider-side denoising when supported.
+
+Do not assume that browser noise cancellation alone is sufficient.
+
+Use VAD and endpointing to determine when the worker has completed a sentence.
+
+Avoid cutting off the end of spoken numbers, names or dates.
+
+If the transcript is unclear, ask the worker to repeat the particular information instead of guessing.
+
+## 3.4 Structured visit record
+
+After speech processing, extract information into a validated structured record.
+
+Required common fields:
+
+- Beneficiary ID.
+- Beneficiary name.
+- Household ID.
+- Visit type.
+- Visit date.
+- ASHA worker ID.
+- Spoken language.
+- Visit observations.
+- Weight, when reported.
+- Measurements and units, when reported.
+- Vaccination status.
+- Vaccinations due.
+- Next visit date.
+- Follow-up requirements.
+- Danger-sign status.
+- Referral status.
+- Source transcript.
+- Field-level confidence.
+- Confirmation status.
+
+Support the following visit categories.
+
+### A. Pregnancy / ANC visit
+
+Capture:
+
+- Beneficiary ID.
+- Beneficiary name.
+- Pregnancy identification.
+- Gestational age or pregnancy week, when provided.
+- ANC checkup status.
+- Weight.
+- Reported blood pressure, if provided.
+- IFA tablet status.
+- Td/TT vaccination information.
+- Reported symptoms.
+- Danger signs.
+- Next visit date.
+- Referral requirement.
+
+Never invent a missing clinical measurement.
+
+### B. Newborn visit
+
+Capture:
+
+- Newborn ID.
+- Mother's beneficiary ID.
+- Newborn name, when available.
+- Date of birth.
+- Age in days or weeks.
+- Birth weight, when reported.
+- Current weight, when reported.
+- Feeding observations.
+- Reported temperature.
+- Immunisation status.
+- Observed or reported danger signs.
+- Next home visit date.
+- Referral requirement.
+
+### C. Immunisation visit
+
+Capture:
+
+- Beneficiary ID.
+- Child's name.
+- Date of birth.
+- Age.
+- Previous vaccine history, when provided.
+- Vaccinations given.
+- Vaccinations due.
+- Missed vaccination information.
+- Next immunisation date.
+- Follow-up requirements.
+
+Use a versioned, approved National Immunisation Schedule configuration. Do not invent vaccine recommendations or infer that a vaccine was administered merely because it was due.
+
+---
+
+# 4. VOICE READ-BACK AND CORRECTION ENGINE
+
+This is one of the most important application components.
+
+After extracting the information, the AI agent must read the entire structured visit record aloud in the worker's selected language.
+
+Example:
+
+"I have recorded the following visit.
+
+Beneficiary name: Nandini.
+Beneficiary ID: ASHA00125.
+Visit type: Pregnancy checkup.
+Weight: 52 kilograms.
+IFA status: Reported as taking.
+Vaccination: TT injection reported.
+Next visit: 25 November 2026.
+
+Is this information correct?"
+
+The worker must be able to respond naturally:
+
+- "Yes, save."
+- "No, change the weight."
+- "Weight is 2.8 kilo."
+- "The next visit is 28 November."
+- "Change the beneficiary ID."
+- "Repeat the entire record."
+
+The correction engine must:
+
+1. Identify the field the worker wants to correct.
+2. Extract the new value.
+3. Update only the selected field.
+4. Preserve previously confirmed fields.
+5. Revalidate the complete record.
+6. Read back the corrected value.
+7. Ask for final confirmation.
+
+For names, IDs, numbers, weights and dates, use a stricter confirmation process.
+
+Do not save an unconfirmed record.
+
+Use explicit voice confirmation before committing the record to the database.
+
+---
+
+# 5. DANGER-SIGN DETECTION AND ESCALATION
+
+THIS IS A CRITICAL SAFETY REQUIREMENT.
+
+A missed danger sign is more serious than an ordinary transcription mistake.
+
+Build a dedicated danger-sign detection engine that operates alongside normal speech extraction, rather than waiting for the entire visit record to be generated.
+
+## 5.1 Pregnancy danger signs
+
+Create a version-controlled, clinically reviewed danger-sign list based on official Indian public health guidelines.
+
+Include relevant approved indicators such as:
+
+- Vaginal bleeding during pregnancy.
+- Convulsions or fits.
+- Severe headache with blurred vision.
+- Reduced or absent fetal movement.
+- Severe abdominal pain.
+
+## 5.2 Newborn danger signs
+
+Include clinically approved newborn indicators such as:
+
+- Fever or feeling unusually cold.
+- Poor feeding or inability to feed.
+- Difficulty breathing.
+- Convulsions.
+- Lethargy or unconsciousness.
+- Other approved newborn danger signs.
+
+Include the hackathon's explicit example of high fever in a newborn.
+
+The final active list must be reviewed against the selected official guideline and approved by a qualified healthcare reviewer.
+
+## 5.3 Multilingual danger-sign recognition
+
+Detect the meaning of danger-sign expressions regardless of whether the worker speaks in:
+
+- Kannada.
+- Hindi.
+- Tamil.
+- Telugu.
+- Malayalam.
+- Marathi.
+- Bengali.
+- Gujarati.
+- Punjabi.
+- Odia.
+- Assamese.
+- English.
+
+Support mixed-language sentences and local expressions.
+
+Use multiple detection layers:
+
+1. Streaming keyword and phrase spotting.
+2. Healthcare terminology dictionary.
+3. Multilingual transcript analysis.
+4. Context and negation detection.
+5. Deterministic approved danger-sign rules.
+6. Final structured danger-event validation.
+
+The engine must distinguish:
+
+"Mother has bleeding."
+
+From:
+
+"Mother does not have bleeding."
+
+Do not treat negated symptoms as positive danger events.
+
+However, an uncertain transcript containing a potentially critical danger-sign phrase must not silently be classified as safe. Ask a clear confirmation question and maintain a visible pending-safety status.
+
+## 5.4 Emergency response
+
+When an approved positive danger sign is detected:
+
+Immediately:
+
+1. Flag the active visit.
+2. Display a prominent danger alert.
+3. Stop routine conversation where necessary.
+4. Announce the alert in the worker's chosen language.
+5. Tell the worker to refer to the PHC now.
+6. Mark referral status as requiring immediate action.
+7. Create a high-priority follow-up/referral record.
+8. Preserve the triggering spoken phrase and relevant transcript.
+9. Record the time of detection.
+
+Example voice response:
+
+"Attention. A danger sign has been reported. Please refer the beneficiary to the nearest Primary Health Centre immediately."
+
+The translated response must convey the same urgency accurately.
+
+The system must NEVER:
+
+- Diagnose a medical condition.
+- Prescribe medicine.
+- Recommend a dosage.
+- Suggest home treatment.
+- Advise waiting when an approved immediate referral trigger has been identified.
+- Override the danger-sign list using an unrestricted LLM response.
+
+Danger detection must be rule-based and auditable, with AI assisting multilingual recognition.
+
+The alert must not be blocked by ordinary form confirmation or a failed network request.
+
+---
+
+# 6. AUTOMATIC FOLLOW-UP MANAGEMENT
+
+After a visit is saved, automatically generate a follow-up action list.
+
+Example:
+
+VISIT COMPLETED
+
+Beneficiary: Nandini
+Visit type: ANC
+
+NEXT ACTIONS:
+- Follow-up visit on the date confirmed by the worker.
+- Track the reported ANC follow-up status.
+- Review the recorded vaccination status.
+- Check any pending actions.
+- Refer immediately if an approved danger-sign event was recorded.
+
+Newborn example:
+
+- Schedule the next home visit using the configured, approved schedule.
+- Check immunisation follow-up.
+- Review previously recorded measurements.
+- Track incomplete visit actions.
+- Maintain referral follow-up status.
+
+The application must distinguish:
+
+- Routine follow-up.
+- Pending information.
+- Scheduled visit.
+- High-priority referral.
+- Immediate referral.
+
+Generate dates only from explicitly supplied dates or approved, versioned schedule rules.
+
+If necessary information is missing, ask the ASHA worker.
+
+Do not invent follow-up dates.
+
+---
+
+# 7. APPLICATION FLOW
+
+Implement the complete user journey as follows.
+
+## Step 1 – Application launch
+
+Display ASHA Voice Register AI branding.
+
+Provide:
+- Language selection.
+- Sign-in.
+- Demo mode using synthetic beneficiaries.
+- Clear microphone permission request.
+
+## Step 2 – User authentication
+
+Authenticate the ASHA worker.
+
+Load the worker's permitted household and synthetic beneficiary dataset.
+
+## Step 3 – Voice dashboard
+
+Display one prominent primary action:
+
+"START HOME VISIT"
+
+Provide secondary options:
+
+- Visit history.
+- Pending follow-ups.
+- Referral alerts.
+- Change language.
+- Profile.
+
+## Step 4 – Start voice visit
+
+Worker selects a visit category by speaking or using large accessible controls:
+
+- Pregnancy.
+- Newborn.
+- Immunisation.
+
+## Step 5 – Identify beneficiary
+
+Worker speaks a synthetic beneficiary ID or name.
+
+Match it against the authorised beneficiary dataset.
+
+If multiple matches exist, read out the possible matches and ask for confirmation.
+
+Never create a new beneficiary merely by guessing an identifier.
+
+## Step 6 – Speak visit notes
+
+Start streaming audio capture.
+
+Display:
+- Listening indicator.
+- Audio waveform.
+- Live partial transcript.
+- Detected language.
+- Recording duration.
+- Network connection state.
+
+Continue listening until a genuine endpoint is detected or the worker explicitly stops.
+
+## Step 7 – Information extraction
+
+Process the transcript and generate the structured visit record.
+
+Run danger-sign detection in parallel.
+
+## Step 8 – Verify record
+
+Display a clear summary.
+
+Read the complete record aloud.
+
+Allow natural voice corrections.
+
+## Step 9 – Confirmation
+
+Ask:
+
+"Should I save this visit record?"
+
+Only save when the worker provides explicit confirmation.
+
+## Step 10 – Save and follow-up
+
+Persist the visit record.
+
+Display a success state and read the saved summary aloud.
+
+Generate the follow-up action list.
+
+## Step 11 – Immediate danger escalation
+
+If a positive approved danger sign is identified, interrupt the normal flow and present the referral alert immediately.
+
+The referral event must be recorded even when the ordinary visit form has not yet been confirmed.
+
+---
+
+# 8. UI/UX DESIGN BRIEF
+
+Create a professional healthcare application with a modern, clean and extremely accessible interface.
+
+The target device is an affordable Android smartphone.
+
+## Design direction
+
+Visual style:
+
+- Healthcare professional.
+- Modern and trustworthy.
+- Minimal interface.
+- Large typography.
+- High contrast.
+- Calm, reassuring colours.
+- Accessible for first-time smartphone users.
+
+Suggested palette:
+
+- Primary: Healthcare teal.
+- Secondary: Soft green.
+- Background: Light neutral.
+- Text: Dark navy.
+- Danger: High-contrast red.
+- Success: Green.
+- Warning: Amber.
+
+Avoid a complicated enterprise dashboard for the primary ASHA interface.
+
+## Main dashboard
+
+Design a large central microphone control with:
+
+"START HOME VISIT"
+
+Other sections:
+
+- Today's completed visits.
+- Pending follow-ups.
+- Urgent referral alerts.
+- Recent visit records.
+- Worker profile.
+
+## Listening interface
+
+Show:
+
+- Animated audio waveform.
+- Large microphone icon.
+- Listening status.
+- Real-time transcription.
+- Language indication.
+- Background-noise warning where relevant.
+- Cancel and stop controls.
+
+Use distinctive visual states:
+
+LISTENING
+PROCESSING
+VERIFYING
+SPEAKING
+WAITING FOR CONFIRMATION
+SAVING
+COMPLETED
+DANGER ALERT
+
+## Record confirmation screen
+
+Display structured information as large cards.
+
+Example:
+
+Beneficiary
+Nandini
+
+Beneficiary ID
+ASHA00125
+
+Visit Type
+ANC Checkup
+
+Weight
+52 kg
+
+Vaccination Status
+Reported as completed
+
+Next Visit
+25 November 2026
+
+Include:
+- Listen again.
+- Correct by voice.
+- Confirm and save.
+
+Do not require the worker to type.
+
+## Emergency screen
+
+Use an unmistakable high-contrast emergency layout.
+
+Show:
+
+DANGER SIGN DETECTED
+
+IMMEDIATE REFERRAL TO PHC
+
+Provide:
+- Alert explanation.
+- Beneficiary reference.
+- Triggering danger-sign category.
+- Time of detection.
+- Referral status.
+
+Announce the same information aloud.
+
+## Accessibility requirements
+
+- At least 48dp touch targets.
+- Readable fonts.
+- Large microphone controls.
+- Local-language labels.
+- Clear audio feedback.
+- Screen-reader support.
+- No keyboard-dependent workflow.
+- Suitable contrast in sunlight.
+- Responsive layout for low-resolution smartphones.
+- Do not rely on colour alone to communicate an alert.
+
+---
+
+# 9. TECHNICAL REQUIREMENTS DOCUMENT (TRD)
+
+Build using a modular, maintainable architecture.
+
+Recommended technology stack:
+
+## Frontend
+
+- React.
+- TypeScript.
+- Vite.
+- Tailwind CSS.
+- Progressive Web App (PWA).
+- Web Audio API.
+- MediaDevices API.
+- WebSocket client.
+- Accessible component library.
+
+## Backend
+
+- Python.
+- FastAPI.
+- Pydantic.
+- SQLAlchemy.
+- Alembic migrations.
+- REST API.
+- WebSocket streaming gateway.
+
+## AI and speech processing
+
+- Gnani Voice APIs/SDK where supported and available for the hackathon.
+- Streaming multilingual STT.
+- Streaming multilingual TTS.
+- Voice Activity Detection.
+- Noise suppression.
+- Healthcare vocabulary normalisation.
+- Multilingual intent recognition.
+- Structured information extraction.
+- Deterministic danger-sign engine.
+
+Use official provider documentation and actual supported interfaces.
+
+Do not invent API endpoints, SDK functions or provider capabilities.
+
+Build provider adapters so that STT and TTS providers can be changed without rewriting the core application.
+
+## Database
+
+- PostgreSQL.
+- Redis for session state, caching and distributed coordination.
+- Encrypted local draft storage for offline operation.
+
+## Infrastructure
+
+- Docker.
+- Docker Compose for local development.
+- Nginx or managed ingress.
+- HTTPS.
+- Secure WebSocket.
+- Cloud deployment with environment-based configuration.
+
+Keep all API credentials and secret keys on the server.
+
+---
+
+# 10. BACKEND ARCHITECTURE
+
+Build a modular backend.
+
+Suggested modules:
+
+/backend
+    /app
+        /api
+        /auth
+        /voice
+        /speech
+        /audio
+        /nlp
+        /healthcare
+        /records
+        /beneficiaries
+        /danger_signs
+        /referrals
+        /followups
+        /database
+        /models
+        /schemas
+        /services
+        /middleware
+        /security
+        /monitoring
+        /config
+
+Responsibilities:
+
+### Voice module
+
+Manages:
+- Audio session creation.
+- Streaming input.
+- WebSocket events.
+- Voice activity detection.
+- Endpointing.
+- Barge-in.
+- Audio playback state.
+
+### Speech module
+
+Manages:
+- STT provider connection.
+- Streaming recognition.
+- Language detection.
+- Code-mix handling.
+- Healthcare vocabulary.
+- Confidence information.
+
+### NLP extraction module
+
+Converts recognised speech into a typed record.
+
+Use schema-constrained extraction.
+
+Never allow unrestricted LLM output to directly write into the healthcare database.
+
+### Danger-sign module
+
+Contains:
+- Versioned rules.
+- Multilingual phrase dictionary.
+- Negation detection.
+- Approved trigger categories.
+- Clinical source references.
+- Alert generation.
+- Audit information.
+
+### Record module
+
+Validates, creates, updates and retrieves visit records.
+
+### Follow-up module
+
+Creates and manages pending actions and scheduled visits.
+
+### Authentication module
+
+Manages access tokens, user roles and sessions.
+
+---
+
+# 11. BACKEND DATA SCHEMA
+
+Create properly validated schemas using Pydantic.
+
+Example structured visit record:
+
+{
+  "beneficiary_id": "ASHA00125",
+  "beneficiary_name": "Nandini",
+  "worker_id": "WORKER001",
+  "visit_type": "ANC",
+  "visit_date": "2026-11-21",
+  "language": "kn",
+  "pregnancy_details": {
+    "gestational_age_weeks": null,
+    "anc_status": "completed",
+    "weight_kg": 52.0,
+    "blood_pressure": null,
+    "ifa_status": "reported_taking",
+    "vaccination_status": "reported_completed"
+  },
+  "newborn_details": null,
+  "immunisation_details": null,
+  "danger_sign_status": "none_detected",
+  "referral_status": "not_required",
+  "next_visit_date": "2026-11-28",
+  "confirmation_status": "confirmed"
+}
+
+This is an illustrative schema. Real extraction must depend on the visit type.
+
+Requirements:
+
+- Missing values must remain null.
+- Never fill unknown values with fabricated data.
+- Validate every field.
+- Preserve original spoken values.
+- Store normalised values separately when required.
+- Store confidence per field.
+- Maintain correction history.
+- Keep the original transcript linked to the record.
+- Use timezone-aware timestamps.
+
+Create separate typed schemas for pregnancy, newborn and immunisation records rather than making every field mandatory for every visit.
+
+---
+
+# 12. DATABASE DESIGN
+
+Use a relational PostgreSQL database.
+
+Create the following tables.
+
+### 1. users
+
+- id
+- full_name
+- username
+- password_hash
+- role
+- preferred_language
+- account_status
+- created_at
+
+### 2. workers
+
+- id
+- user_id
+- worker_code
+- assigned_area
+- supervisor_id
+
+### 3. households
+
+- id
+- household_code
+- locality
+- synthetic_address
+- created_at
+
+### 4. beneficiaries
+
+- id
+- beneficiary_code
+- household_id
+- display_name
+- beneficiary_type
+- date_of_birth
+- synthetic_data_flag
+- created_at
+
+### 5. visits
+
+- id
+- beneficiary_id
+- worker_id
+- visit_type
+- visit_date
+- transcript_id
+- record_status
+- confirmation_status
+- danger_sign_status
+- referral_status
+- created_at
+- updated_at
+
+### 6. pregnancy_records
+
+- id
+- visit_id
+- gestational_age_weeks
+- weight_kg
+- blood_pressure
+- anc_status
+- ifa_status
+- td_status
+- reported_observations
+
+### 7. newborn_records
+
+- id
+- visit_id
+- birth_date
+- age_days
+- birth_weight_kg
+- current_weight_kg
+- reported_temperature
+- feeding_observations
+
+### 8. immunisation_records
+
+- id
+- visit_id
+- vaccine_code
+- vaccination_status
+- vaccination_date
+- next_due_date
+- schedule_version
+
+### 9. voice_sessions
+
+- id
+- worker_id
+- language
+- provider
+- session_status
+- started_at
+- ended_at
+- time_to_first_audio_ms
+
+### 10. transcripts
+
+- id
+- voice_session_id
+- raw_transcript
+- language
+- processing_status
+- created_at
+
+### 11. danger_sign_events
+
+- id
+- visit_id
+- danger_sign_code
+- source_guideline_id
+- matched_phrase
+- detection_method
+- confidence
+- confirmation_status
+- severity_category
+- detected_at
+
+### 12. referrals
+
+- id
+- visit_id
+- danger_event_id
+- referral_destination_type
+- referral_status
+- referral_timestamp
+- acknowledgement_status
+
+### 13. followups
+
+- id
+- visit_id
+- beneficiary_id
+- task_description
+- priority
+- due_date
+- task_status
+- created_at
+
+### 14. corrections
+
+- id
+- visit_id
+- field_name
+- previous_value
+- corrected_value
+- correction_source
+- corrected_at
+
+### 15. guideline_versions
+
+- id
+- guideline_name
+- source_url
+- version
+- effective_date
+- reviewed_by
+- reviewed_at
+- active_status
+
+### 16. audit_logs
+
+- id
+- user_id
+- entity_type
+- entity_id
+- action
+- timestamp
+- correlation_id
+
+Add:
+- Foreign keys.
+- Appropriate indexes.
+- Unique beneficiary-code constraints.
+- Database migrations.
+- Transaction management.
+- Referential integrity.
+- Tenant/area-based access boundaries.
+
+Enforce consistency between visits, danger events, referrals and follow-up records.
+
+Do not store patient information in application logs.
+
+---
+
+# 13. NETWORKING ARCHITECTURE
+
+Implement a reliable streaming architecture.
+
+Data flow:
+
+ASHA Android Device
+        |
+        | Microphone Audio
+        v
+React PWA / Audio Capture
+        |
+        | Secure WSS Audio Stream
+        v
+API Gateway / Voice Gateway
+        |
+        +---- Voice Activity Detection
+        |
+        +---- Noise Processing
+        |
+        +---- Streaming STT
+        |
+        +---- Language and Terminology Processing
+        |
+        +---- Structured Information Extraction
+        |
+        +---- Danger-Sign Detection
+        |
+        +---- Visit Validation
+        |
+        +---- Streaming TTS
+        |
+        v
+Audio Response to ASHA Device
+
+Parallel persistence path:
+
+Validated Visit
+        |
+        v
+FastAPI Backend
+        |
+        +---- PostgreSQL
+        |
+        +---- Redis
+        |
+        +---- Follow-up Service
+        |
+        +---- Referral Service
+        |
+        +---- Audit Service
+
+Networking requirements:
+
+- TLS-protected communication.
+- Secure WebSocket connections.
+- Authenticated streaming sessions.
+- Audio sequence identifiers.
+- Session timeout controls.
+- Reconnection handling.
+- Duplicate request protection.
+- Request validation.
+- Rate limiting.
+- Provider timeout management.
+- Network-state awareness.
+
+Use the backend as the secure provider integration gateway. Never expose private speech API keys in the browser.
+
+Define clear message formats for:
+
+- Audio stream start.
+- Audio frames.
+- Partial transcript.
+- Final transcript.
+- Detected language.
+- Extracted fields.
+- Danger event.
+- TTS audio chunks.
+- Barge-in interruption.
+- Record confirmation.
+- Session completion.
+
+---
+
+# 14. SECURITY REQUIREMENTS
+
+Security must be part of the architecture.
+
+Implement:
+
+1. JWT-based authentication.
+2. Short-lived access tokens.
+3. Secure refresh-token rotation.
+4. Argon2id password hashing.
+5. Role-based access control.
+6. HTTPS and secure WebSockets.
+7. Input validation.
+8. SQL injection prevention.
+9. Cross-site scripting protection.
+10. CSRF protections where applicable.
+11. API rate limiting.
+12. Secure environment variables.
+13. Encryption at rest.
+14. Database access restrictions.
+15. Secure session management.
+16. Audit logging.
+17. CORS restrictions.
+18. Content Security Policy.
+19. Dependency vulnerability checks.
+20. Access controls for referral information.
+
+### Data privacy
+
+For the hackathon demonstration:
+
+- Use synthetic beneficiaries only.
+- Generate fictional names and identifiers.
+- Do not import real ASHA registers.
+- Do not collect real patient health information.
+- Do not use real patient recordings.
+- Avoid retaining raw audio by default.
+- Do not send transcripts to analytics or external logging systems without a defined privacy purpose.
+
+Build a retention configuration for audio and transcript data.
+
+The application must clearly disclose when audio is processed through an external speech provider.
+
+Never claim regulatory or clinical approval without evidence.
+
+Before real-world healthcare deployment, require the appropriate clinical, organisational, security and legal approvals.
+
+---
+
+# 15. RELIABILITY AND FAULT TOLERANCE
+
+The application must remain predictable when internet connectivity becomes unstable.
+
+Implement:
+
+### Network interruptions
+
+- Detect lost connectivity.
+- Preserve the active visit as a draft.
+- Maintain locally encrypted pending data.
+- Resume the session safely.
+- Prevent duplicate submissions.
+- Indicate which information has not been synchronised.
+
+### Speech provider failures
+
+- Detect STT or TTS provider errors.
+- Retry within safe limits.
+- Use an alternative provider only when configured and validated.
+- Clearly communicate unavailable functions.
+- Never silently replace actual recognition with simulated output.
+
+### Database failures
+
+- Use atomic database transactions.
+- Use idempotency keys for commit requests.
+- Maintain a retryable persistence process.
+- Ensure referral events are not lost.
+- Record failures for monitoring.
+
+### Safety during failure
+
+If an approved danger sign has already been detected, do not erase the warning when the connection drops.
+
+Show the locally retained alert and the referral instruction.
+
+Do not claim a referral has been delivered or acknowledged unless this has actually happened.
+
+---
+
+# 16. SCALABILITY REQUIREMENTS
+
+Use modular and horizontally scalable services.
+
+Design for:
+
+- Multiple ASHA workers.
+- Multiple districts.
+- Thousands of synthetic beneficiary profiles.
+- Concurrent voice sessions.
+- Multiple language configurations.
+- Growing visit history.
+- Increasing follow-up tasks.
+
+Implement:
+
+- Stateless API instances.
+- Redis-backed shared session coordination.
+- Database connection pooling.
+- Appropriate PostgreSQL indexes.
+- Background task queues for non-critical work.
+- Object storage only when audio retention is explicitly enabled.
+- Horizontal scaling for voice and API services.
+- Monitoring of provider and database capacity.
+
+Critical safety detection and alert generation must not wait for slow reporting or analytics processes.
+
+---
+
+# 17. AUTHENTICITY AND RESPONSIBLE AI
+
+This project must demonstrate genuine working technology.
+
+Do not create:
+- Fake live waveforms.
+- Simulated transcription presented as real.
+- Static danger alerts pretending to use AI.
+- Fake speech accuracy scores.
+- Fake network activity.
+- Fabricated API responses.
+- Fake database save notifications.
+
+Every demonstrated feature must correspond to an actual implementation or be visibly labelled as simulated.
+
+Use deterministic healthcare rules where safety requires predictable behaviour.
+
+Use AI for:
+- Multilingual understanding.
+- Transcription assistance.
+- Speech interpretation.
+- Field extraction.
+- Natural-language corrections.
+- Spoken conversation.
+
+Use validated rules for:
+- Required fields.
+- Numeric validation.
+- Approved danger-sign triggers.
+- Referral priorities.
+- Immunisation schedule configuration.
+- Final record confirmation.
+
+For each critical extracted field, preserve:
+
+- Original utterance.
+- Extracted value.
+- Normalised value.
+- Confidence.
+- Correction history.
+- Final confirmed value.
+
+The AI must be transparent about uncertain speech.
+
+It must ask questions instead of inventing information.
+
+---
+
+# 18. FOLLOW-UP AND SUPERVISOR DASHBOARD
+
+Build a separate supervisor interface.
+
+Display:
+
+- Total visits completed.
+- Pregnancy visits.
+- Newborn visits.
+- Immunisation visits.
+- Pending follow-ups.
+- Referral events.
+- Unconfirmed drafts.
+- Visit completion history.
+- Worker activity.
+
+Provide filters for:
+
+- Worker.
+- Household.
+- Visit category.
+- Date range.
+- Referral status.
+- Follow-up status.
+
+Use aggregated information and synthetic records only.
+
+Apply role-based access controls.
+
+Supervisors must not be able to modify a confirmed clinical record without an authorised correction process.
+
+---
+
+# 19. LIVE HACKATHON DEMONSTRATION
+
+Build the application specifically to perform well in live judge testing.
+
+Prepare a real-time demo scenario.
+
+### Scenario 1: Pregnancy visit
+
+Judge speaks:
+
+"Today I visited beneficiary ASHA00125, Nandini. ANC checkup completed. Weight is 52 kilo. IFA goli taking. Next visit on 28 November."
+
+Expected:
+- Correct beneficiary matching.
+- ANC classification.
+- Correct name.
+- Exact weight and unit.
+- IFA status.
+- Correct next-visit date.
+- Spoken read-back.
+- Voice confirmation.
+- Database save.
+- Follow-up creation.
+
+### Scenario 2: Newborn visit
+
+Judge speaks:
+
+"Baby weight 2.8 kilo, baby is feeding properly, vaccination record checked."
+
+Expected:
+- Correct newborn record.
+- Exact weight.
+- Feeding observation.
+- Immunisation information.
+- No invented details.
+- Read-back and confirmation.
+
+### Scenario 3: Voice correction
+
+Judge says:
+
+"No, weight is 2.8 kilo, not 3.8."
+
+Expected:
+- Detect correction.
+- Change only the weight field.
+- Preserve other fields.
+- Read corrected information.
+- Request confirmation.
+
+### Scenario 4: Danger-sign escalation
+
+Judge speaks:
+
+"The pregnant woman has vaginal bleeding."
+
+Expected:
+- Recognise the positive danger sign.
+- Interrupt normal workflow.
+- Immediately announce PHC referral.
+- Flag the record.
+- Create a referral event.
+- Record detection time.
+
+### Scenario 5: Newborn danger sign
+
+Judge speaks:
+
+"The newborn has high fever and is not feeding."
+
+Expected:
+- Recognise the approved newborn danger signs.
+- Display an urgent alert.
+- Announce the referral instruction in the selected language.
+- Preserve the detection information.
+
+### Scenario 6: Background noise
+
+Repeat a normal visit using realistic background audio.
+
+Expected:
+- Noise-resistant transcription.
+- No invented values.
+- Correct endpointing.
+- Recovery when part of the speech is unclear.
+
+### Scenario 7: English code-mixing
+
+Judge speaks:
+
+"Mother-ge ANC checkup agide, IFA goli regular aagi togondiddare."
+
+Expected:
+- Correct mixed-language understanding.
+- Appropriate healthcare terminology extraction.
+- Accurate read-back.
+
+### Scenario 8: Barge-in test
+
+During the AI's read-back, the judge interrupts:
+
+"No, change the next visit date."
+
+Expected:
+- Stop AI playback.
+- Listen immediately.
+- Interpret the correction.
+- Update the appropriate field.
+
+### Scenario 9: Negation test
+
+Judge says:
+
+"Mother has no bleeding."
+
+Expected:
+- Correctly understand negation.
+- Do not create a positive bleeding event.
+
+### Scenario 10: Network interruption
+
+Disconnect the internet during a visit.
+
+Expected:
+- Preserve the current draft.
+- Display offline status.
+- Prevent duplicate records.
+- Resume synchronisation when connectivity returns.
+
+---
+
+# 20. TESTING AND QUALITY ASSURANCE
+
+Implement unit, integration, system and user-acceptance tests.
+
+Mandatory tests:
+
+### Speech tests
+
+- Correct transcription of supported languages.
+- English code-mixing.
+- Medical terminology recognition.
+- Numeric accuracy.
+- Name recognition.
+- Date recognition.
+- Decimal weight extraction.
+- Endpointing.
+- Barge-in.
+- Background noise.
+
+### Healthcare data tests
+
+- Pregnancy record extraction.
+- Newborn record extraction.
+- Immunisation record extraction.
+- Missing field detection.
+- Required field validation.
+- Voice correction.
+- Explicit save confirmation.
+
+### Safety tests
+
+- Positive danger-sign detection.
+- Negative phrase detection.
+- Negation recognition.
+- Different local-language expressions.
+- Duplicate alert prevention.
+- Uncertain danger phrase handling.
+- Referral event persistence.
+- Network interruption during an alert.
+
+### Security tests
+
+- Authentication.
+- Authorisation.
+- Invalid tokens.
+- Expired sessions.
+- SQL injection attempts.
+- XSS attempts.
+- Cross-user data access.
+- Secret exposure checks.
+
+### Reliability tests
+
+- STT provider timeout.
+- TTS provider timeout.
+- WebSocket disconnection.
+- Database outage.
+- Retry behaviour.
+- Idempotent save.
+- Reconnection.
+- Offline draft recovery.
+
+---
+
+# 21. EVALUATION METRICS
+
+Create a measurable evaluation dashboard.
+
+Track:
+
+| Metric | Evaluation |
+|---|---|
+| Task completion | Correct completed visit records |
+| Name accuracy | Exact beneficiary name match |
+| Number accuracy | Exact IDs, weights and dates |
+| Field accuracy | Correct extracted values |
+| Danger-sign recall | Correct positive danger-sign detection |
+| Danger-sign precision | Correctly identified positive events |
+| Read-back success | Correct read-back before confirmation |
+| Correction success | Correct field update by voice |
+| TTFA | End of caller speech to first agent audio |
+| Endpointing delay | Speech endpoint performance |
+| Barge-in latency | Time to interrupt AI playback |
+| Offline recovery | Successful draft recovery |
+| Database integrity | Valid persisted records |
+
+Prioritise danger-sign recall.
+
+Never hide false negatives behind overall accuracy.
+
+Record each test result using reproducible test cases.
+
+For performance reports, disclose:
+- Number of test samples.
+- Supported language.
+- Noise conditions.
+- Hardware used.
+- Provider used.
+- Actual measured latency.
+- Known limitations.
+
+---
+
+# 22. DOCUMENTATION AND DEPLOYMENT
+
+Create the following project deliverables:
+
+1. Complete source code.
+2. Frontend application.
+3. Backend application.
+4. Database schema.
+5. Database migrations.
+6. Voice provider integration.
+7. Language configuration.
+8. Healthcare vocabulary dictionary.
+9. Danger-sign configuration.
+10. Synthetic beneficiary dataset.
+11. Automated tests.
+12. Docker configuration.
+13. Environment variable example.
+14. Deployment configuration.
+15. README.
+16. System architecture diagram.
+17. API documentation.
+18. Database ER diagram.
+19. Data flow diagram.
+20. Hackathon demonstration instructions.
+
+README must explain:
+
+- Problem statement.
+- Product solution.
+- Main features.
+- Architecture.
+- Technology stack.
+- Languages supported and tested.
+- Voice processing pipeline.
+- Provider setup.
+- Database setup.
+- Danger-sign sources.
+- Safety guardrails.
+- Installation.
+- Running locally.
+- Running tests.
+- Deployment.
+- Demo scenarios.
+- Limitations.
+- Privacy and synthetic-data policy.
+
+Cite every clinical guideline used by the danger-sign rules.
+
+---
+
+# 23. OFFICIAL HEALTHCARE REFERENCE SOURCES
+
+Use official government/public-health sources as the foundation for the healthcare logic.
+
+1. National Health Mission – Samagra Shishu Bal Swasthya Karyakram (SSBSK) Operational Guidelines 2026:
+https://nhm.gov.in/index4.php?lang=1&level=0&lid=825&linkid=521
+
+2. National Health Mission – ASHA Module 6: Skills That Save Lives:
+https://nhm.gov.in/images/pdf/communitisation/asha/book-no-6.pdf
+
+3. National Health Mission – Comprehensive Emergency Obstetric and Newborn Care:
+https://nhm.gov.in/images/pdf/programmes/maternal-health/guidelines/Revised_CEmONC_curriculum_2024-Part_2.pdf
+
+4. Government of India – National Immunisation Schedule:
+https://static.pib.gov.in/WriteReadData/specificdocs/documents/2026/mar/doc2026317827201.pdf
+
+Verify the exact relevant section and applicable state/district guidance before activating clinical rules.
+
+Include the source title, page/section, URL, guideline version, review date and healthcare reviewer in the application's guideline configuration.
+
+Do not treat an AI-generated list as an approved clinical guideline.
+
+---
+
+# 24. FINAL ACCEPTANCE CRITERIA
+
+The application will be considered functionally complete only when all the following conditions are met.
+
+[ ] ASHA worker can use the application without typing during a visit.
+
+[ ] Voice capture works through an actual microphone.
+
+[ ] Actual streaming speech recognition is integrated.
+
+[ ] Supported Indic languages are tested.
+
+[ ] English code-mixing works.
+
+[ ] Healthcare terminology is recognised.
+
+[ ] Background noise is tested.
+
+[ ] Automatic endpointing works.
+
+[ ] Barge-in is functional.
+
+[ ] Names and numbers are validated.
+
+[ ] Pregnancy visit records are generated correctly.
+
+[ ] Newborn visit records are generated correctly.
+
+[ ] Immunisation visit records are generated correctly.
+
+[ ] Structured records are read aloud before saving.
+
+[ ] Corrections work through speech.
+
+[ ] Explicit confirmation is required before normal record saving.
+
+[ ] Positive approved danger signs are detected.
+
+[ ] Negative/negated danger-sign expressions are handled correctly.
+
+[ ] An immediate PHC referral alert is announced in the selected language.
+
+[ ] Referral events are persisted and auditable.
+
+[ ] Follow-up lists are generated correctly.
+
+[ ] Synthetic beneficiaries are used throughout the hackathon demo.
+
+[ ] Backend and database integration are functional.
+
+[ ] Authentication and access controls are functional.
+
+[ ] Network interruption does not silently lose a visit.
+
+[ ] Duplicate submissions are prevented.
+
+[ ] The system reports actual latency and evaluation metrics.
+
+[ ] README contains official clinical guideline citations.
+
+[ ] No fake AI, simulated production functionality or unsupported clinical advice is presented as real.
+
+[ ] The application works on an Android smartphone.
+
+---
+
+# 25. FINAL DEVELOPMENT INSTRUCTIONS
+
+Build this as a complete, integrated application, not as disconnected UI pages.
+
+Development priorities:
+
+PRIORITY 1:
+Real-time voice capture, streaming STT, code-mixing and noise handling.
+
+PRIORITY 2:
+Reliable healthcare field extraction, names, IDs, weights and dates.
+
+PRIORITY 3:
+Voice read-back, correction and confirmation.
+
+PRIORITY 4:
+Danger-sign detection and immediate referral escalation.
+
+PRIORITY 5:
+Database persistence and automatic follow-up management.
+
+PRIORITY 6:
+Beautiful, accessible Android-first UI/UX.
+
+PRIORITY 7:
+Security, offline recovery, reliability, scalability and documentation.
+
+Do not remove, simplify or replace the essential requirements.
+
+Do not mark a feature complete merely because its UI exists.
+
+Verify every feature through an actual end-to-end test.
+
+Where an external API credential is required, create the proper integration and explain the environment configuration. Provide a clearly labelled local development/mock mode only for testing, never present mock responses as a live AI integration.
+
+The finished product must demonstrate one complete journey:
+
+**ASHA SPEAKS → AI LISTENS → UNDERSTANDS → CREATES RECORD → DETECTS DANGER SIGNS → READS BACK → ACCEPTS VOICE CORRECTION → SAVES → GENERATES FOLLOW-UPS.**
+
+Build the application with the reliability, accessibility, accuracy and responsible-AI principles expected of a healthcare field tool.
+
+The ultimate objective is to ensure that an ASHA worker can finish a real-time home-visit registration independently, confidently and without typing, before reaching the next household.

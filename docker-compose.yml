@@ -1,0 +1,21 @@
+services:
+  asha-voice-register:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: asha-voice-register-ai
+    ports:
+      - "3000:3000"
+    environment:
+      NODE_ENV: production
+      PORT: 3000
+      GEMINI_API_KEY: ${GEMINI_API_KEY:-}
+      APP_URL: ${APP_URL:-http://localhost:3000}
+      AUDIO_RETENTION_HOURS: ${AUDIO_RETENTION_HOURS:-0}
+      TRANSCRIPT_RETENTION_DAYS: ${TRANSCRIPT_RETENTION_DAYS:-30}
+    volumes:
+      - asha_sqlite_data:/app/data
+    restart: unless-stopped
+
+volumes:
+  asha_sqlite_data:

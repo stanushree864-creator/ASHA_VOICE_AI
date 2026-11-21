@@ -1,0 +1,61 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --font-display: 'Plus Jakarta Sans', 'Noto Sans Devanagari', 'Noto Sans Kannada', 'Noto Sans Tamil', 'Noto Sans Telugu', 'Noto Sans Malayalam', 'Noto Sans Bengali', 'Noto Sans Gujarati', 'Noto Sans Gurmukhi', 'Noto Sans Oriya', system-ui, -apple-system, sans-serif;
+    --font-sans: 'DM Sans', 'Noto Sans Devanagari', 'Noto Sans Kannada', 'Noto Sans Tamil', 'Noto Sans Telugu', 'Noto Sans Malayalam', 'Noto Sans Bengali', 'Noto Sans Gujarati', 'Noto Sans Gurmukhi', 'Noto Sans Oriya', system-ui, -apple-system, sans-serif;
+    --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, monospace;
+  }
+
+  html.large-text {
+    font-size: 18px;
+  }
+
+  body {
+    font-family: var(--font-sans);
+    background-color: #F7F9FC;
+    color: #172B3A;
+  }
+
+  html.high-contrast body {
+    background-color: #FFFFFF;
+    color: #0B1620;
+  }
+
+  html.high-contrast .border-\[\#E7EDF2\] {
+    border-color: #94A3B8 !important;
+  }
+
+  html.high-contrast button:focus-visible,
+  html.high-contrast input:focus-visible,
+  html.high-contrast select:focus-visible {
+    outline: 3px solid #087F75;
+    outline-offset: 2px;
+  }
+
+  h1, h2, h3, h4, .font-display {
+    font-family: var(--font-display);
+  }
+
+  .font-mono, .tabular-nums {
+    font-variant-numeric: tabular-nums;
+  }
+}
+
+@media print {
+  aside, header, nav {
+    display: none !important;
+  }
+  body {
+    background-color: #FFFFFF !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+

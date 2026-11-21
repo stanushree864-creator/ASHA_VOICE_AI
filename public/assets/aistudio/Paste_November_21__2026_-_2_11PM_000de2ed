@@ -1,0 +1,1069 @@
+# MASTER DEVELOPMENT PROMPT — ASHA VOICE FIELD REGISTER
+## Build a complete, production-quality healthcare voice web application
+
+### 1. PROJECT OBJECTIVE
+
+Build a modern, fully functional, responsive web application called **ASHA Voice Field Register**.
+
+The application helps ASHA (Accredited Social Health Activist) workers record household healthcare visits using voice instead of manually typing information.
+
+An ASHA worker should be able to speak naturally in Kannada, Hindi, English, Tamil, Telugu, Malayalam, Marathi, Bengali, Gujarati, Punjabi, Odia, Assamese, and other supported Indian languages.
+
+The application must:
+- Convert speech into accurate text.
+- Understand regional-language speech with English healthcare terminology mixed in.
+- Automatically extract relevant healthcare information.
+- Populate structured digital visit forms.
+- Allow the worker to review and correct information using voice or touch.
+- Read the collected information back to the worker.
+- Ask for confirmation before saving.
+- Identify configured danger signs and trigger an appropriate PHC referral alert.
+- Maintain visit history, follow-ups, and beneficiary records.
+
+**Important:** This is a field-recording and referral-support application, not a diagnostic or treatment system. Never generate a medical diagnosis or treatment recommendation.
+
+---
+
+# 2. MOST IMPORTANT: EXACT UI/UX DESIGN REFERENCE
+
+Use the uploaded dashboard reference image as the primary visual design reference.
+
+Recreate its visual style as closely as possible. Do not create a generic healthcare dashboard.
+
+### Overall design language
+
+- Modern Google-inspired white interface.
+- Premium healthcare SaaS dashboard.
+- White and very light grey background.
+- Deep teal/navy vertical sidebar.
+- Emerald green primary action buttons.
+- Soft blue and mint-green accent colours.
+- Rounded cards with subtle shadows.
+- Clean spacing and excellent visual hierarchy.
+- Modern typography.
+- Smooth micro-interactions.
+- Professional, welcoming, accessible design.
+- Avoid excessive gradients, unnecessary decorations, and crowded layouts.
+
+### Colour palette
+
+Use these colours consistently:
+
+- Main background: #F7F9FC
+- Card background: #FFFFFF
+- Sidebar: #102B35
+- Primary teal: #087F75
+- Emerald: #10A77A
+- Light mint: #E8F7F1
+- Light blue: #EDF5FF
+- Main text: #172B3A
+- Secondary text: #718096
+- Border: #E7EDF2
+- Warning: #F4A340
+- Critical alert: #D94B4B
+
+### Typography
+
+Use:
+- Inter for general UI.
+- Inter SemiBold for headings.
+- Inter Medium for buttons and labels.
+- Comfortable font sizes for users with limited digital experience.
+
+### Sidebar design
+
+Create a fixed, dark teal sidebar with:
+- Application logo and name: ASHA Voice Register.
+- Dashboard.
+- Voice Visit.
+- What to Ask.
+- What to Fill.
+- Visit Records.
+- Follow-ups.
+- Alerts.
+- Reports.
+- Settings.
+- Help & Support.
+
+Sidebar requirements:
+- Active navigation item highlighted with a teal/mint background.
+- Matching Lucide icons.
+- Smooth hover effects.
+- Collapsible sidebar on desktop.
+- Slide-out navigation drawer on mobile.
+- Tooltips when collapsed.
+- Navigation must work on every page.
+
+### Dashboard header
+
+At the top of the main dashboard, display:
+- Greeting: Good Morning, [ASHA Worker Name].
+- ASHA Worker designation.
+- District and PHC information.
+- Language selector.
+- Notification icon with unread count.
+- Profile avatar and dropdown.
+- Current date and time.
+
+Use synthetic demonstration information only.
+
+---
+
+# 3. DASHBOARD LAYOUT
+
+Recreate the reference dashboard structure.
+
+### A. Welcome hero section
+
+Create a large, attractive welcome card with:
+- A professional ASHA healthcare worker illustration or photograph.
+- Heading: "Every Visit Matters!"
+- Subtitle: "Your voice can make every household healthcare visit easier."
+- Animated voice waveform.
+- Primary button: "Start New Voice Visit".
+- Secondary button: "View Visit History".
+
+The Start New Voice Visit button must open the actual voice visit workflow.
+
+### B. Dashboard statistics
+
+Display four responsive statistic cards:
+
+1. Visits Completed
+2. Pending Follow-ups
+3. Alert Events
+4. Record Completion Rate
+
+Each card should have:
+- Relevant icon.
+- Large statistic.
+- Short description.
+- Trend indicator where meaningful.
+- Small visual chart or progress indicator.
+
+All statistics must come from actual application data. Use clearly labelled synthetic demo data only when running in demo mode.
+
+### C. What to Ask section
+
+Create a large card titled "What to Ask".
+
+Include three categories:
+
+**Pregnancy & ANC**
+- Is the mother pregnant?
+- What is the expected delivery date, if known?
+- Has the ANC checkup been completed?
+- Has the mother received the recommended TT/Td vaccination?
+- Is she taking IFA tablets?
+- Are any configured danger signs reported?
+
+**Newborn Care**
+- What is the baby's date of birth?
+- Is the baby breastfeeding?
+- Has the baby received the recommended newborn checkups?
+- Are immunisations up to date?
+- Is the baby experiencing any configured danger signs?
+
+**Immunisation**
+- Which vaccines have been received?
+- What is the date of the last vaccination?
+- Is another vaccination due?
+- Is a follow-up visit required?
+
+Buttons:
+- Open Question Guide.
+- Start Voice Questions.
+
+Each button must open a functional page or workflow.
+
+Questions must be configurable and reviewed against authoritative public-health guidance. Do not invent clinical recommendations.
+
+### D. What to Fill section
+
+Create a matching card titled "What to Fill".
+
+Display:
+- Beneficiary name.
+- Beneficiary ID.
+- Household ID.
+- Age/date of birth.
+- Visit date and time.
+- Pregnancy/ANC information.
+- Newborn information.
+- Immunisation information.
+- Follow-up date.
+- Worker remarks.
+- Confirmation status.
+
+Show three field statuses:
+- Confirmed.
+- Needs Confirmation.
+- Not Provided.
+
+Buttons:
+- Open Visit Form.
+- Review Auto-Filled Data.
+
+The form must be automatically populated from the voice conversation and allow manual corrections.
+
+### E. Quick access section
+
+Create four attractive quick-access cards:
+- Pregnancy & ANC.
+- Newborn Care.
+- Immunisation.
+- Visit History.
+
+Each card must navigate to its respective functional section.
+
+### F. Additional dashboard sections
+
+Add:
+- Weekly visit progress.
+- Monthly visit analytics.
+- Upcoming follow-ups.
+- Recently recorded visits.
+- Danger-sign alerts.
+- Pending records.
+- Worker activity summary.
+
+Use clean charts and readable visualisations.
+
+---
+
+# 4. VOICE VISIT MODULE — CORE FEATURE
+
+This is the most important feature of the entire application.
+
+Create a dedicated voice recording interface.
+
+### Voice interface design
+
+Include:
+- Large circular microphone button.
+- Animated waveform.
+- Recording duration.
+- Selected language.
+- Live speech transcript.
+- Pause recording.
+- Resume recording.
+- Stop recording.
+- Cancel recording.
+- Save draft.
+- Confirm and save.
+
+Use these recording states:
+- Ready.
+- Listening.
+- Processing.
+- Reviewing.
+- Confirmed.
+- Saved.
+- Error.
+
+### Voice workflow
+
+1. Worker selects the beneficiary or creates a synthetic demo beneficiary.
+2. Worker selects the preferred language.
+3. Worker starts the voice visit.
+4. Application listens to the worker.
+5. Live speech is converted to text.
+6. Healthcare information is extracted.
+7. Relevant fields are automatically populated.
+8. Missing or unclear information is identified.
+9. The application asks follow-up questions.
+10. Worker confirms or corrects the information.
+11. Application reads back the collected details.
+12. Worker confirms the record.
+13. Record is saved to the database.
+14. Follow-up tasks are generated where applicable.
+
+### Example voice conversation
+
+ASHA worker:
+
+"ಈ ತಾಯಿ ಮೂರು ತಿಂಗಳ ಗರ್ಭಿಣಿ. ANC checkup ಆಗಿದೆ. IFA tablets ತೆಗೆದುಕೊಳ್ಳುತ್ತಿದ್ದಾರೆ."
+
+Application should:
+- Detect Kannada speech.
+- Understand the English healthcare terms.
+- Extract pregnancy duration.
+- Extract ANC status.
+- Extract IFA information.
+- Populate the relevant fields.
+- Mark uncertain fields for confirmation.
+
+Do not assume information that was not spoken.
+
+### Voice corrections
+
+Support natural correction commands such as:
+- "Change the age to 25."
+- "ANC checkup is completed."
+- "Correct the delivery date."
+- "Remove the previous answer."
+- "Repeat the last question."
+- "Go to the next question."
+- "Save this record."
+
+The worker must also be able to correct fields manually.
+
+---
+
+# 5. MULTILINGUAL SPEECH TECHNOLOGY
+
+Implement a multilingual speech architecture.
+
+### Supported languages
+
+- Kannada.
+- Hindi.
+- English.
+- Tamil.
+- Telugu.
+- Malayalam.
+- Marathi.
+- Bengali.
+- Gujarati.
+- Punjabi.
+- Odia.
+- Assamese.
+
+Design the architecture to support additional Indian languages, including the broader set of 22 scheduled languages.
+
+### Speech technology stack
+
+Use a provider-independent speech architecture.
+
+Recommended options:
+- Streaming speech recognition: Google Cloud Speech-to-Text or an equivalent multilingual streaming provider.
+- Alternative: AI4Bharat/Indic speech technologies where suitable.
+- Text-to-speech: Google Cloud Text-to-Speech or a suitable Indic-language TTS provider.
+- Language detection: multilingual language-identification model.
+- Healthcare entity extraction: structured LLM extraction with strict schema validation.
+
+Do not hard-code the application to one provider.
+
+Create separate services:
+- SpeechRecognitionService.
+- LanguageDetectionService.
+- HealthcareExtractionService.
+- TextToSpeechService.
+- VoiceCorrectionService.
+
+Use WebSocket streaming where supported.
+
+The application should handle:
+- Regional accents.
+- Kannada-English code-mixing.
+- Background noise.
+- Pauses.
+- Repeated words.
+- Unclear speech.
+- Network interruptions.
+
+Never silently convert uncertain speech into confirmed medical information.
+
+---
+
+# 6. AUTOMATIC HEALTHCARE DATA EXTRACTION
+
+Create a structured extraction engine.
+
+Extract only information supported by the conversation.
+
+Example structure:
+
+Beneficiary:
+- beneficiary_id
+- name
+- age
+- household_id
+- village
+- contact_number, if provided and consented
+
+Visit:
+- visit_id
+- visit_date
+- worker_id
+- visit_type
+- language
+- transcript
+- confirmation_status
+
+Pregnancy:
+- pregnancy_status
+- pregnancy_duration
+- expected_delivery_date
+- anc_status
+- anc_visit_date
+- tt_td_status
+- ifa_status
+- reported_concerns
+
+Newborn:
+- baby_date_of_birth
+- breastfeeding_status
+- newborn_checkup_status
+- reported_concerns
+
+Immunisation:
+- vaccine_name
+- vaccination_date
+- vaccination_status
+- next_followup_date
+
+Follow-up:
+- followup_required
+- followup_date
+- reason
+- status
+
+For every extracted field, store:
+- Extracted value.
+- Source transcript segment.
+- Confidence score.
+- Confirmation status.
+
+Never treat a low-confidence value as confirmed.
+
+---
+
+# 7. DANGER-SIGN DETECTION AND REFERRAL ALERTS
+
+Build a separate safety and escalation module.
+
+The system must identify only the danger signs approved in a team-defined, documented, guideline-based list.
+
+Examples to evaluate against the approved list include:
+- Bleeding during pregnancy.
+- High fever in a newborn.
+
+The final danger-sign list must be reviewed against authoritative public-health guidance before deployment.
+
+### When a configured danger sign is detected:
+
+1. Show a prominent red alert.
+2. Display the exact reported symptom.
+3. Highlight the relevant beneficiary record.
+4. Ask the ASHA worker to confirm the reported information.
+5. Display the approved PHC referral instruction in the selected language.
+6. Clearly communicate that the worker should contact or refer to the appropriate PHC immediately according to the approved protocol.
+7. Record the alert event and timestamp.
+8. Provide an alert history for authorised users.
+
+Important:
+- Do not diagnose.
+- Do not prescribe medicine.
+- Do not recommend home treatment.
+- Do not invent urgency categories or clinical rules.
+- Do not suppress an alert because speech confidence is low; ask for clarification and follow the approved safety workflow.
+- Make the escalation message configurable and reviewed by qualified healthcare professionals.
+
+---
+
+# 8. VISIT RECORDS MODULE
+
+Create a complete visit records page.
+
+Features:
+- Search by beneficiary name.
+- Search by beneficiary ID.
+- Filter by visit type.
+- Filter by date.
+- Filter by worker.
+- Filter by confirmation status.
+- Filter by follow-up status.
+- View complete visit details.
+- View transcript.
+- View extracted information.
+- Edit records with permission.
+- View audit history.
+- Export authorised records.
+
+Use a clean table with a responsive card layout on mobile.
+
+Clicking a record must open a detailed record page or side panel.
+
+---
+
+# 9. FOLLOW-UP MANAGEMENT
+
+Create a functional follow-up module.
+
+Features:
+- Upcoming follow-ups.
+- Overdue follow-ups.
+- Completed follow-ups.
+- Pending follow-ups.
+- Follow-up date.
+- Beneficiary details.
+- Follow-up reason.
+- Assigned ASHA worker.
+- Reminder status.
+
+Allow:
+- Create follow-up.
+- Edit follow-up.
+- Reschedule follow-up.
+- Mark completed.
+- Add voice notes.
+- View follow-up history.
+
+Use notification reminders where supported.
+
+---
+
+# 10. ALERTS AND NOTIFICATIONS
+
+Create an alert centre.
+
+Alert categories:
+- Danger-sign referral alerts.
+- Missing information.
+- Pending confirmation.
+- Overdue follow-ups.
+- Failed synchronisation.
+- System notifications.
+
+Provide:
+- Read/unread status.
+- Alert timestamp.
+- Beneficiary reference.
+- Alert details.
+- Relevant action.
+- Filter and search.
+
+Critical healthcare alerts must be visually distinct from ordinary application notifications.
+
+---
+
+# 11. REPORTS AND ANALYTICS
+
+Create a reports page with:
+- Daily visit count.
+- Weekly visit count.
+- Monthly visit count.
+- Pregnancy visit statistics.
+- Newborn visit statistics.
+- Immunisation visit statistics.
+- Follow-up completion rate.
+- Incomplete records.
+- Alert summary.
+
+Use interactive charts.
+
+Filters:
+- Today.
+- This week.
+- This month.
+- Custom date range.
+
+Use Recharts or an equivalent chart library.
+
+Export reports in CSV and PDF formats for authorised users.
+
+Do not display identifiable beneficiary information in aggregate reports unless explicitly authorised.
+
+---
+
+# 12. SETTINGS AND USER PROFILE
+
+Create settings pages for:
+- Worker profile.
+- Preferred language.
+- Speech settings.
+- Voice speed.
+- Text size.
+- Notification preferences.
+- Accessibility preferences.
+- Data synchronisation.
+- Security.
+- Help and support.
+
+Add a high-contrast accessibility option and a larger-text option.
+
+---
+
+# 13. FULL TECHNOLOGY STACK
+
+Use the following recommended architecture, adapting it to any existing working project.
+
+### Frontend
+
+- React.js.
+- TypeScript.
+- Vite.
+- Tailwind CSS.
+- shadcn/ui.
+- Lucide React icons.
+- Framer Motion.
+- React Router.
+- TanStack Query.
+- React Hook Form.
+- Zod validation.
+- Recharts.
+
+### Backend
+
+- Node.js.
+- TypeScript.
+- Express.js or NestJS.
+- REST API.
+- WebSocket for real-time voice streaming.
+- Prisma ORM.
+
+### Database
+
+- PostgreSQL.
+- Prisma ORM.
+- Redis for caching, queues, and temporary session state where required.
+
+### Voice and AI
+
+- Streaming speech-to-text provider.
+- Multilingual language detection.
+- Healthcare terminology extraction.
+- Structured LLM output with JSON schema validation.
+- Text-to-speech provider.
+- Noise handling and audio preprocessing where supported.
+
+### File and media storage
+
+- Secure object storage for permitted audio files.
+- Do not retain raw recordings by default.
+- Configure retention and deletion policies.
+- Store only the information necessary for the application.
+
+### Deployment
+
+Frontend:
+- Vercel or equivalent.
+
+Backend:
+- Render, Railway, or equivalent.
+
+Database:
+- Managed PostgreSQL.
+
+Use environment variables for all credentials and service keys.
+
+Never expose API secrets in frontend code.
+
+---
+
+# 14. DATABASE DESIGN
+
+Create a properly related database schema.
+
+Required tables:
+
+1. users
+2. asha_workers
+3. beneficiaries
+4. households
+5. visits
+6. voice_sessions
+7. transcripts
+8. extracted_health_data
+9. pregnancy_records
+10. newborn_records
+11. immunisation_records
+12. followups
+13. danger_sign_events
+14. notifications
+15. audit_logs
+16. language_preferences
+17. sync_queue
+
+Requirements:
+- Primary keys.
+- Foreign keys.
+- Appropriate indexes.
+- Created and updated timestamps.
+- Data validation.
+- Soft deletion only where appropriate.
+- Access control.
+- Audit logging.
+
+Use migrations and seed scripts.
+
+Create synthetic sample data for demonstrations.
+
+---
+
+# 15. COMPLETE API REQUIREMENTS
+
+Create well-structured APIs.
+
+Authentication:
+- POST /api/auth/login
+- POST /api/auth/logout
+- GET /api/auth/me
+
+Dashboard:
+- GET /api/dashboard/summary
+- GET /api/dashboard/analytics
+
+Beneficiaries:
+- GET /api/beneficiaries
+- POST /api/beneficiaries
+- GET /api/beneficiaries/:id
+- PATCH /api/beneficiaries/:id
+
+Voice:
+- POST /api/voice/session
+- POST /api/voice/transcribe
+- POST /api/voice/extract
+- POST /api/voice/correct
+- POST /api/voice/confirm
+
+Visits:
+- GET /api/visits
+- POST /api/visits
+- GET /api/visits/:id
+- PATCH /api/visits/:id
+
+Follow-ups:
+- GET /api/followups
+- POST /api/followups
+- PATCH /api/followups/:id
+
+Alerts:
+- GET /api/alerts
+- POST /api/alerts
+- PATCH /api/alerts/:id
+
+Reports:
+- GET /api/reports/summary
+- GET /api/reports/export
+
+Settings:
+- GET /api/settings
+- PATCH /api/settings
+
+Add request validation, authentication, authorisation, pagination, error handling, and rate limiting.
+
+---
+
+# 16. INTERACTION AND FUNCTIONALITY REQUIREMENTS
+
+Every visible button, icon, card, navigation item, dropdown, tab, filter, and form must have a real function.
+
+Do not create decorative controls that do nothing.
+
+Implement:
+
+- Working sidebar navigation.
+- Working dashboard cards.
+- Working voice recording.
+- Real-time transcript display.
+- Language selection.
+- Voice playback.
+- Pause and resume.
+- Voice correction.
+- Manual form editing.
+- Auto-filled data.
+- Confirmation workflow.
+- Save draft.
+- Submit visit.
+- Search and filters.
+- Pagination.
+- Follow-up creation.
+- Follow-up completion.
+- Notifications.
+- Alert acknowledgement.
+- Reports and export.
+- Profile dropdown.
+- Settings persistence.
+- Logout.
+- Loading states.
+- Empty states.
+- Success messages.
+- Error messages.
+- Confirmation dialogs.
+
+Use meaningful hover, focus, active, disabled, and loading states.
+
+Add skeleton loading components where appropriate.
+
+---
+
+# 17. RESPONSIVE DESIGN
+
+The application must work on:
+
+- Desktop.
+- Laptop.
+- Tablet.
+- Android mobile.
+- Low-end smartphones.
+
+Desktop:
+- Full sidebar.
+- Spacious dashboard.
+- Multi-column cards.
+
+Tablet:
+- Collapsible sidebar.
+- Two-column layout where appropriate.
+
+Mobile:
+- Slide-out sidebar or bottom navigation.
+- Single-column cards.
+- Large touch targets.
+- Sticky recording controls.
+- Readable text.
+- No horizontal overflow.
+
+Prioritise fast loading and simple interactions for field workers using low-end devices.
+
+---
+
+# 18. ACCESSIBILITY AND FIELD USABILITY
+
+The application must be usable by workers with different levels of digital literacy.
+
+Implement:
+- Large microphone button.
+- Large touch targets.
+- Clear labels.
+- Simple navigation.
+- Minimal typing.
+- Language-first onboarding.
+- Audio instructions where supported.
+- Text-to-speech read-back.
+- High-contrast mode.
+- Adjustable text size.
+- Clear error messages.
+- Confirmation before saving.
+- Recovery from interrupted sessions.
+
+Avoid complex forms and unnecessary information on the main screen.
+
+---
+
+# 19. SECURITY, PRIVACY AND COMPLIANCE
+
+This application handles sensitive healthcare information.
+
+Implement:
+- Secure authentication.
+- Role-based access control.
+- HTTPS.
+- Secure password hashing.
+- Input validation.
+- API rate limiting.
+- Secure session handling.
+- Database access restrictions.
+- Audit logging.
+- Encryption in transit and at rest where supported.
+- Consent and appropriate notice.
+- Configurable data retention.
+- Secure deletion.
+- No sensitive data in application logs.
+- No real beneficiary information in development or demo environments.
+
+Use synthetic data for all public demonstrations.
+
+Follow applicable Indian data-protection and healthcare requirements. Review the system with appropriate institutional and healthcare stakeholders before production use.
+
+---
+
+# 20. OFFLINE AND NETWORK RELIABILITY
+
+ASHA workers may work in areas with poor connectivity.
+
+Implement:
+- Network status indicator.
+- Save draft locally using secure storage.
+- Queue permitted updates while offline.
+- Retry failed synchronisation.
+- Show pending sync count.
+- Resolve conflicting edits safely.
+- Avoid duplicate records.
+- Recover interrupted sessions where technically possible.
+
+Never claim a record is saved to the server until the server confirms it.
+
+Clearly distinguish:
+- Saved locally.
+- Pending synchronisation.
+- Successfully synchronised.
+- Synchronisation failed.
+
+---
+
+# 21. ANIMATIONS AND MICRO-INTERACTIONS
+
+Use Framer Motion for subtle, professional interactions.
+
+Implement:
+- Sidebar transition.
+- Card hover elevation.
+- Smooth page transitions.
+- Animated waveform during recording.
+- Microphone pulse while listening.
+- Progress indicators during processing.
+- Animated confirmation check.
+- Smooth modal opening.
+- Toast notifications.
+- Chart entrance animations.
+
+Keep animations lightweight and provide reduced-motion support.
+
+Avoid excessive animation that distracts field workers.
+
+---
+
+# 22. PROJECT STRUCTURE
+
+Use a clean, maintainable structure similar to:
+
+frontend/
+  src/
+    components/
+    pages/
+    layouts/
+    hooks/
+    services/
+    api/
+    types/
+    utils/
+    assets/
+    styles/
+
+backend/
+  src/
+    modules/
+    controllers/
+    services/
+    middleware/
+    database/
+    websocket/
+    ai/
+    voice/
+    notifications/
+    utils/
+
+shared/
+  schemas/
+  types/
+
+prisma/
+  schema.prisma
+  migrations/
+  seed.ts
+
+docs/
+  architecture.md
+  api-documentation.md
+  database-schema.md
+  safety-and-escalation.md
+  setup-guide.md
+
+---
+
+# 23. DEVELOPMENT AND TESTING REQUIREMENTS
+
+Do not stop after generating a beautiful frontend.
+
+Build the complete working application.
+
+Required testing:
+- Authentication tests.
+- Dashboard API tests.
+- Beneficiary CRUD tests.
+- Voice extraction tests.
+- Healthcare field validation tests.
+- Voice correction tests.
+- Confirmation workflow tests.
+- Danger-sign rule tests.
+- Follow-up tests.
+- Database tests.
+- Responsive UI tests.
+- Error handling tests.
+- Offline synchronisation tests.
+
+Create mock speech mode so the entire application can be demonstrated without paid speech API credentials.
+
+Clearly label mock speech as demo mode. Never pretend simulated speech recognition is live recognition.
+
+---
+
+# 24. FINAL DELIVERY REQUIREMENTS
+
+Deliver:
+
+1. Complete responsive frontend.
+2. Functional backend.
+3. PostgreSQL database schema.
+4. Database migrations.
+5. Synthetic seed data.
+6. Working dashboard.
+7. Functional voice recording workflow.
+8. Multilingual speech provider integration.
+9. Automatic field extraction.
+10. Voice correction and confirmation.
+11. Danger-sign escalation workflow.
+12. Visit history.
+13. Follow-up management.
+14. Alerts and notifications.
+15. Reports and analytics.
+16. Authentication and permissions.
+17. Offline draft and synchronisation workflow.
+18. API documentation.
+19. README with setup instructions.
+20. Environment variable example file.
+21. Deployment instructions.
+22. Automated tests.
+
+### Final acceptance criteria
+
+- The dashboard visually matches the supplied reference image.
+- Every navigation item works.
+- Every visible interactive element works.
+- Voice recording works with a configured speech provider.
+- Mock speech mode works without external credentials.
+- The application supports the selected Indian languages through the configured provider.
+- Speech information is extracted into structured fields.
+- Uncertain information requires confirmation.
+- The worker can correct information using voice and touch.
+- The application reads back information before final confirmation.
+- Records are saved and retrieved from PostgreSQL.
+- Follow-ups and alerts work.
+- Critical configured danger signs trigger the approved referral workflow.
+- Mobile and desktop layouts work correctly.
+- No sensitive real beneficiary data is used in the demo.
+- No broken buttons, placeholder pages, fake statistics, or non-functional controls remain.
+
+## MOST IMPORTANT IMPLEMENTATION INSTRUCTION
+
+First inspect the existing codebase and identify its current frontend, backend, database, authentication, APIs, and working features.
+
+If an existing application is available:
+- Preserve the existing working architecture.
+- Reuse existing components and services where suitable.
+- Do not delete or replace working functionality.
+- Do not reset or destroy existing database records.
+- Add the new modules incrementally.
+- Keep existing authentication and API contracts compatible.
+- Run the existing application and tests before making changes.
+
+Build the application in phases:
+1. Existing project inspection and architecture plan.
+2. Design system and dashboard.
+3. Navigation and page layouts.
+4. Beneficiary and visit database.
+5. What to Ask and What to Fill.
+6. Voice recording and transcription.
+7. Healthcare data extraction.
+8. Confirmation and correction.
+9. Danger-sign alerts.
+10. Follow-ups and reports.
+11. Security and offline support.
+12. Testing, bug fixing, and deployment.
+
+Do not finish with a static prototype. The final result must be a polished, genuinely functional, end-to-end ASHA Voice Field Register application.
+
+**Visual priority:** Match the supplied white-background dashboard with the dark teal sidebar, emerald green actions, rounded white cards, welcoming healthcare hero banner, statistics, What to Ask, What to Fill, quick-access modules, follow-ups, and safety alerts. Preserve this design language consistently across every page.

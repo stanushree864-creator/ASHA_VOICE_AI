@@ -1,0 +1,10 @@
+{
+  "name": "Remix Remix Remix ASHA Voice Register AI",
+  "description": "Multilingual voice-first healthcare field registration system for ASHA workers with real-time streaming STT, danger-sign escalation, voice read-back, and automatic follow-ups.",
+  "requestFramePermissions": [
+    "microphone"
+  ],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
